@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* index.css */
+
+/* Small desktop: 992px–1199px */
+@media (min-width: 992px) and (max-width: 1199px) {
+  /* Prefix: .sm-desktop\: */
+  .sm-desktop\:w-3\/4      { width: 75% !important; }
+  .sm-desktop\:text-2xl    { font-size: 1.5rem !important; }
+  .sm-desktop\:mt-16       { margin-top: 4rem !important; }
+  /* …add more as needed… */
+}
+
+/* Medium desktop: 1200px–1399px */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  /* Prefix: .md-desktop\: */
+  .md-desktop\:w-2\/3      { width: 66.666667% !important; }
+  .md-desktop\:text-3xl    { font-size: 1.875rem !important; }
+  .md-desktop\:mt-20       { margin-top: 5rem !important; }
+  /* … */
+}
+
+/* Large desktop: ≥ 1400px */
+@media (min-width: 1400px) {
+  /* Prefix: .lg-desktop\: */
+  .lg-desktop\:w-1\/2      { width: 50% !important; }
+  .lg-desktop\:text-4xl    { font-size: 2.25rem !important; }
+  .lg-desktop\:mt-24       { margin-top: 6rem !important; }
+  /* … */
+}
+
+
+canvas {
+  pointer-events: auto !important;
+}
+
+body {
+  width: 100vw;
+  overflow-x: hidden;
+}
