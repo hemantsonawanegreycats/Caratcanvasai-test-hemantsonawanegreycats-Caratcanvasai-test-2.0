@@ -107,6 +107,16 @@ export default function MasonryGallery() {
     const imagecontainer = gsap.utils.toArray(".imagecontainer");
 
     imagecontainer.forEach((el, index) => {
+//     el.addEventListener("click", () => {
+//   // Scale up hovered element
+//   gsap.to(el, {
+//     width: "50vw",
+//     height: "50vw",
+//     duration: 1,
+
+//     ease: "power3.inOut",
+//   });
+// });
       el.addEventListener("mouseenter", () => {
         // Scale up hovered element
         gsap.to(el, {
@@ -124,7 +134,7 @@ export default function MasonryGallery() {
               scale: 0.95,
               opacity: 0.5,
               x: offset,
-              y:offset,
+              y: offset,
               duration: 1,
               ease: "power3.inOut",
             });
@@ -147,7 +157,7 @@ export default function MasonryGallery() {
               scale: 1,
               opacity: 1,
               x: 0,
-              y:0,
+              y: 0,
               duration: 1,
               ease: "power3.inOut",
             });

@@ -31,7 +31,7 @@ export default function RouterLayout() {
 
       {/* Only render SplashCursor when cursorEnabled is true */}
       {cursorEnabled && (
-        <SplashCursor SIM_RESOLUTION={10} DYE_RESOLUTION={60} />
+        <SplashCursor SIM_RESOLUTION={20} DYE_RESOLUTION={200} />
       )}
 
       <Outlet />

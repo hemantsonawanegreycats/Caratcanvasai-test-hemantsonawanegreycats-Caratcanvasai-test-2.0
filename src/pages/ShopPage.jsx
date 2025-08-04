@@ -39,7 +39,7 @@ function ShopPageLayout() {
   ];
 
   return (
-    <div className="flex h-screen">
+    <div className="flex relative h-screen">
       {/* 1) Toggle button must live inside SidebarProvider */}
       <SidebarTrigger
         onClick={() => setOpenMobile((prev) => !prev)}
