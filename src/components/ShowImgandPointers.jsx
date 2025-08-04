@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
 import animatedvideoone from "../assets/animatedvideo2-.mp4";
-import animatedvideothree from "../assets/animatedvideo3.mp4";
+import animatedvideothree from "../assets/animatedvideo3-.mp4";
 import animatedvideofourth from "../assets/animatedvideo4_1-.mp4";
 
 function ShowImgandPointers({ comp }) {
