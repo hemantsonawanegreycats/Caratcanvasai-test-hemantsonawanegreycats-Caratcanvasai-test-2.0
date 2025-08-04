@@ -1,5 +1,4 @@
-// AboutUsPage.jsx
-import React, { useEffect, useRef, Suspense } from "react";
+import React, { useEffect, useRef, Suspense, useMemo, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
 import * as THREE from "three";
@@ -7,236 +6,274 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Model from "../components/Model";
 import jewallery from "../assets/ring .glb";
-import bgimage1 from "../assets/images/bg_01.jpg";
-import bgimage2 from "../assets/images/bg_02.jpg";
-import bgimage3 from "../assets/images/bg_03.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function AboutUsPage() {
+export default function OptimizedAboutUsPage() {
   const parentDiv = useRef(null);
   const modelGroupRef = useRef(null);
   const cameraRef = useRef(null);
-
   const firstCont = useRef(null);
   const secoundCont = useRef(null);
   const thirdCont = useRef(null);
 
-  useEffect(() => {
-    let ctx;
+  // Memoize animation configurations to prevent recreation
+  const animationConfig = useMemo(() => ({
+    ease: "cubic-bezier(0.19, 1, 0.2, 1)",
+    duration: 1,
+    stagger: 0.1
+  }), []);
 
-    function setupAnimation() {
-      if (!modelGroupRef.current || !cameraRef.current || !parentDiv.current) {
-        requestAnimationFrame(setupAnimation);
-        return;
-      }
+  // Memoized scroll trigger configurations
+  const scrollTriggerConfigs = useMemo(() => ([
+    {
+      trigger: firstCont,
+      start: "top 75%",
+      end: "top 20%",
+      scrub: 1,
+      // Remove markers in production for better performance
+      markers: false
+    },
+    {
+      trigger: secoundCont,
+      start: "top 75%",
+      end: "top 20%",
+      scrub: 1,
+      markers: false
+    },
+    {
+      trigger: thirdCont,
+      start: "top 75%",
+      end: "top 20%",
+      scrub: 1,
+      markers: false
+    }
+  ]), []);
 
-      // Animate heading fade-in on mount
-      const headings = gsap.utils.toArray(".headinttext");
-      const firstpara = gsap.utils.toArray(".firstpara");
-      const secoundpara = gsap.utils.toArray(".secoundpara");
-      const thirdpara = gsap.utils.toArray(".thirdpara");
+  // Memoized camera settings
+  const cameraSettings = useMemo(() => ({
+    position: [0, 2, 5],
+    fov: 50
+  }), []);
 
-      gsap.to(headings, {
-        marginTop: "6%",
-        opacity: 1,
-        duration: 1,
-        stagger: 0.1,
-        ease: "cubic-bezier(0.19, 1, 0.2, 1)",
-      });
+  // Memoized WebGL settings
+  const glSettings = useMemo(() => ({
+    outputEncoding: THREE.sRGBEncoding,
+    toneMapping: THREE.ACESFilmicToneMapping,
+    powerPreference: "high-performance",
+    antialias: false, // Disable for better performance
+    alpha: true
+  }), []);
 
-      // First animation block (time 0)
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: firstCont.current,
-          start: "top 75%", // When top of trigger hits 75% viewport height
-          end: "top 20%", // When top hits 20% viewport height
-          scrub: 1, // Smooth scrubbing
-          markers: true,
-        },
-      });
-
-      tl.to(modelGroupRef.current.position, {
-        x: -0.2,
-        y: 0.4,
-        ease: "transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]",
-        delay: 0.2,
-        duration: 1,
-      });
-
-      tl.to(firstpara, {
-        marginLeft: "0%",
-        alpha: 1,
-        stagger: 0.4,
-        ease: "power3.inOut",
-      });
-
-      tl.to(
-        modelGroupRef.current.scale,
-        {
-          x: 0.2,
-          y: 0.2,
-          z: 0.2,
-          ease: "power3",
-        },
-        0 // start concurrently with previous tween
-      );
-
-      tl.to(
-        modelGroupRef.current.rotation,
-        {
-          y: THREE.MathUtils.degToRad(180),
-          x: THREE.MathUtils.degToRad(29),
-          z: THREE.MathUtils.degToRad(5),
-
-          ease: "none",
-        },
-        0
-      );
-
-      tl.to(
-        cameraRef.current.position,
-        {
-          z: 1,
-          ease: "none",
-        },
-        0
-      );
-
-      // -----------------------
-
-      const tl2 = gsap.timeline({
-        scrollTrigger: {
-          trigger: secoundCont.current,
-          start: "top 75%", // When top of trigger hits 75% viewport height
-          end: "top 20%", // When top hits 20% viewport height
-          scrub: 1, // Smooth scrubbing
-        },
-      });
-
-      tl2.to(modelGroupRef.current.position, {
-        x: 0.25,
-        y: -0.8,
-        ease: "cubic-bezier(0.19, 1, 0.2, 1)",
-        duration: 2,
-      });
-
-      tl2.to(secoundpara, {
-        marginLeft: "12%",
-        alpha: 1,
-        stagger: 0.4,
-        ease: "power3.inOut",
-      });
-
-      tl2.to(
-        modelGroupRef.current.scale,
-        {
-          x: 0.3,
-          y: 0.3,
-          z: 0.3,
-          ease: "cubic-bezier(0.19, 1, 0.2, 1)",
-          duration: 1,
-        },
-        0 // start concurrently with previous tween
-      );
-
-      tl2.to(
-        modelGroupRef.current.rotation,
-        {
-          y: THREE.MathUtils.degToRad(0),
-          x: THREE.MathUtils.degToRad(20),
-          z: THREE.MathUtils.degToRad(0),
-
-          ease: "none",
-          duration: 1,
-        },
-        0
-      );
-
-      tl2.to(
-        cameraRef.current.position,
-        {
-          z: 1,
-          ease: "none",
-        },
-        0
-      );
-
-      const tl3 = gsap.timeline({
-        scrollTrigger: {
-          trigger: thirdCont.current,
-          start: "top 75%", // When top of trigger hits 75% viewport height
-          end: "top 20%", // When top hits 20% viewport height
-          scrub: 1, // Smooth scrubbing
-          markers: true,
-        },
-      });
-
-      tl3.to(modelGroupRef.current.position, {
-        x: -0.75,
-        y: -5,
-        ease: "power3",
-        duration: 2,
-      });
-
-      tl.to(thirdpara, {
-        marginLeft: "0%",
-        alpha: 1,
-        stagger: 0.4,
-        duration: 1,
-        ease: "power3.inOut",
-      });
-
-      // thirdpara
-
-      tl3.to(
-        modelGroupRef.current.scale,
-        {
-          x: 0.8,
-          y: 0.8,
-          z: 0.8,
-          ease: "cubic-bezier(0.19, 1, 0.2, 1)",
-          duration: 1,
-        },
-        0 // start concurrently with previous tween
-      );
-
-      tl3.to(
-        modelGroupRef.current.rotation,
-        {
-          y: THREE.MathUtils.degToRad(180),
-          x: THREE.MathUtils.degToRad(15),
-          z: THREE.MathUtils.degToRad(5),
-          ease: "cubic-bezier(0.19, 1, 0.2, 1)", // match other tweens
-          duration: 1,
-        },
-        0
-      );
-
-      tl3.to(
-        cameraRef.current.position,
-        {
-          z: 1,
-          ease: "cubic-bezier(0.19, 1, 0.2, 1)", // match other tweens
-          duration: 1,
-        },
-        0
-      );
+  // Optimized animation setup function
+  const setupAnimation = useCallback(() => {
+    if (!modelGroupRef.current || !cameraRef.current || !parentDiv.current) {
+      return;
     }
 
-    // -------------------------
+    // Cache DOM elements
+    const headings = gsap.utils.toArray(".headinttext");
+    const firstpara = gsap.utils.toArray(".firstpara");
+    const secoundpara = gsap.utils.toArray(".secoundpara");
+    const thirdpara = gsap.utils.toArray(".thirdpara");
 
-    setupAnimation();
+    // Batch initial animations
+    const initialTl = gsap.timeline();
+    initialTl.to(headings, {
+      marginTop: "6%",
+      opacity: 1,
+      duration: animationConfig.duration,
+      stagger: animationConfig.stagger,
+      ease: animationConfig.ease,
+    });
 
-    return () => {
-      if (ctx) ctx.revert();
+    // Create optimized scroll timelines
+    const timelines = [];
+
+    // First section animation
+    const tl1 = gsap.timeline({
+      scrollTrigger: {
+        ...scrollTriggerConfigs[0],
+        trigger: firstCont.current,
+        invalidateOnRefresh: true, // Better performance on resize
+        fastScrollEnd: true // Optimize for fast scrolling
+      },
+    });
+
+    tl1.to(modelGroupRef.current.position, {
+      x: -0.2,
+      y: 0.4,
+      ease: animationConfig.ease,
+      duration: animationConfig.duration,
+    })
+    .to(firstpara, {
+      marginLeft: "0%",
+      opacity: 1,
+      stagger: 0.4,
+      ease: "power3.inOut",
+    }, 0)
+    .to(modelGroupRef.current.scale, {
+      x: 0.2,
+      y: 0.2,
+      z: 0.2,
+      ease: "power3",
+    }, 0)
+    .to(modelGroupRef.current.rotation, {
+      y: THREE.MathUtils.degToRad(180),
+      x: THREE.MathUtils.degToRad(29),
+      z: THREE.MathUtils.degToRad(5),
+      ease: "none",
+    }, 0)
+    .to(cameraRef.current.position, {
+      z: 1,
+      ease: "none",
+    }, 0);
+
+    // Second section animation
+    const tl2 = gsap.timeline({
+      scrollTrigger: {
+        ...scrollTriggerConfigs[1],
+        trigger: secoundCont.current,
+        invalidateOnRefresh: true,
+        fastScrollEnd: true
+      },
+    });
+
+    tl2.to(modelGroupRef.current.position, {
+      x: 0.25,
+      y: -0.8,
+      ease: animationConfig.ease,
+      duration: 2,
+    })
+    .to(secoundpara, {
+      marginLeft: "12%",
+      opacity: 1,
+      stagger: 0.4,
+      ease: "power3.inOut",
+    }, 0)
+    .to(modelGroupRef.current.scale, {
+      x: 0.3,
+      y: 0.3,
+      z: 0.3,
+      ease: animationConfig.ease,
+      duration: 1,
+    }, 0)
+    .to(modelGroupRef.current.rotation, {
+      y: THREE.MathUtils.degToRad(0),
+      x: THREE.MathUtils.degToRad(20),
+      z: THREE.MathUtils.degToRad(0),
+      ease: "none",
+      duration: 1,
+    }, 0)
+    .to(cameraRef.current.position, {
+      z: 1,
+      ease: "none",
+    }, 0);
+
+    // Third section animation
+    const tl3 = gsap.timeline({
+      scrollTrigger: {
+        ...scrollTriggerConfigs[2],
+        trigger: thirdCont.current,
+        invalidateOnRefresh: true,
+        fastScrollEnd: true
+      },
+    });
+
+    tl3.to(modelGroupRef.current.position, {
+      x: -0.75,
+      y: -5,
+      ease: "power3",
+      duration: 2,
+    })
+    .to(thirdpara, {
+      marginLeft: "0%",
+      opacity: 1,
+      stagger: 0.4,
+      duration: 1,
+      ease: "power3.inOut",
+    }, 0)
+    .to(modelGroupRef.current.scale, {
+      x: 0.8,
+      y: 0.8,
+      z: 0.8,
+      ease: animationConfig.ease,
+      duration: 1,
+    }, 0)
+    .to(modelGroupRef.current.rotation, {
+      y: THREE.MathUtils.degToRad(180),
+      x: THREE.MathUtils.degToRad(15),
+      z: THREE.MathUtils.degToRad(5),
+      ease: animationConfig.ease,
+      duration: 1,
+    }, 0)
+    .to(cameraRef.current.position, {
+      z: 1,
+      ease: animationConfig.ease,
+      duration: 1,
+    }, 0);
+
+    timelines.push(tl1, tl2, tl3);
+    return timelines;
+  }, [animationConfig, scrollTriggerConfigs]);
+
+  useEffect(() => {
+    let timelines = [];
+    let animationFrame;
+
+    const initAnimation = () => {
+      timelines = setupAnimation();
     };
-  }, []);
+
+    // Use requestAnimationFrame for better performance
+    animationFrame = requestAnimationFrame(initAnimation);
+
+    // Cleanup function
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+      
+      // Kill all timelines and ScrollTrigger instances
+      timelines.forEach(tl => {
+        if (tl) {
+          tl.kill();
+        }
+      });
+      
+      // Clean up all ScrollTrigger instances
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      
+      // Refresh ScrollTrigger to clean up any remaining instances
+      ScrollTrigger.refresh();
+    };
+  }, [setupAnimation]);
+
+  // Memoized lighting setup
+  const lightingSetup = useMemo(() => (
+    <>
+      <ambientLight intensity={0.3} />
+      <directionalLight
+        castShadow
+        position={[5, 10, 5]}
+        intensity={1}
+        shadow-mapSize-width={1024} // Reduced for better performance
+        shadow-mapSize-height={1024}
+        shadow-camera-near={0.5}
+        shadow-camera-far={50}
+        shadow-camera-left={-5}
+        shadow-camera-right={5}
+        shadow-camera-top={5}
+        shadow-camera-bottom={-5}
+      />
+      <Environment preset="warehouse" />
+    </>
+  ), []);
 
   return (
     <div
       ref={parentDiv}
-      className="flex w-screen  relative bg-[linear-gradient(120deg,_#fff_10%,_#ffe8cc_100%)]"
+      className="flex w-screen relative bg-[linear-gradient(120deg,_#fff_10%,_#ffe8cc_100%)]"
       style={{ overflowX: "hidden" }}
     >
       {/* Heading Text */}
@@ -257,8 +294,8 @@ export default function AboutUsPage() {
         ))}
       </div>
 
-      {/* Three.js Canvas */}
-      <div className="w-screen  flex flex-col items-center">
+      {/* Optimized Three.js Canvas */}
+      <div className="w-screen flex flex-col items-center">
         <Canvas
           style={{
             width: "100%",
@@ -268,34 +305,21 @@ export default function AboutUsPage() {
             zIndex: "10",
           }}
           shadows
-          camera={{ position: [0, 2, 5], fov: 50 }}
+          camera={cameraSettings}
           onCreated={({ camera }) => {
             cameraRef.current = camera;
           }}
-          gl={{
-            outputEncoding: THREE.sRGBEncoding,
-            toneMapping: THREE.ACESFilmicToneMapping,
-          }}
+          gl={glSettings}
+          frameloop="demand" // Only render when needed
+          dpr={Math.min(window.devicePixelRatio, 2)} // Limit pixel ratio for performance
         >
-          <ambientLight intensity={0.3} />
-          <directionalLight
-            castShadow
-            position={[5, 10, 5]}
-            intensity={1}
-            shadow-mapSize-width={2048}
-            shadow-mapSize-height={2048}
-            shadow-camera-near={0.5}
-            shadow-camera-far={50}
-            shadow-camera-left={-5}
-            shadow-camera-right={5}
-            shadow-camera-top={5}
-            shadow-camera-bottom={-5}
-          />
-          <Environment preset="warehouse" />
+          {lightingSetup}
+          
           <group
             ref={modelGroupRef}
             position={[0, 1.2, 0]}
             scale={[0.4, 0.4, 0.4]}
+            frustumCulled={true} // Enable frustum culling
           >
             <Suspense fallback={null}>
               <Model
@@ -306,50 +330,43 @@ export default function AboutUsPage() {
               />
             </Suspense>
 
-            {/* Pivot helper - red sphere */}
-            <mesh position={[0, 1.2, 0]}>
-              <sphereGeometry args={[0.02]} />
-              <meshBasicMaterial color="red" />
-            </mesh>
-
-            {/* Shadow catching ground */}
+            {/* Optimized shadow catching ground */}
             <mesh
               rotation={[-Math.PI / 2, 0, 0]}
               receiveShadow
               position={[0, 1.2, 0]}
+              frustumCulled={true}
             >
               <planeGeometry args={[50, 50]} />
-              <shadowMaterial opacity={0.15} />
+              <shadowMaterial opacity={0.1} /> {/* Reduced opacity for better performance */}
             </mesh>
           </group>
-          <OrbitControls target={[0, 0, 0]} enableZoom={false} />
+          
+          <OrbitControls 
+            target={[0, 0, 0]} 
+            enableZoom={false}
+            enableDamping={true} // Add damping for smoother interaction
+            dampingFactor={0.1}
+          />
         </Canvas>
-        <div className="w-screen h-screen "></div>
+        
+        <div className="w-screen h-screen"></div>
+        
         <div
           ref={firstCont}
           className="w-screen h-screen flex justify-end items-center"
         >
           <div className="w-[50%]">
-            <div
-              className="firstpara ml-80 opacity-0 2xl:text-[4rem] lg:text-[2.5rem] font-semibold bg-clip-text text-transparent 
-                          bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F]
-                          transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)] "
-            >
+            <div className="firstpara ml-80 opacity-0 2xl:text-[4rem] lg:text-[2.5rem] font-semibold bg-clip-text text-transparent bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]">
               About Us
             </div>
-
-            <div
-              className="firstpara ml-80 opacity-0 w-[80%] mt-6  bg-clip-text text-transparent 
-                          bg-gradient-to-br from-[#8f6c4d] via-[#663e2d] to-[#3f2016]
-                          transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]"
-            >
+            <div className="firstpara ml-80 opacity-0 w-[80%] mt-6 bg-clip-text text-transparent bg-gradient-to-br from-[#8f6c4d] via-[#663e2d] to-[#3f2016] transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]">
               Elevate your jewelry design with GemAI—where AI meets elegance.
               Instantly generate photorealistic 3D models, from filigree rings
               to bespoke necklaces, refined with flawless precision. goodbye to
               manual modeling and hello to effortless innovation—unleash your
               creativity. with GemAI, the ultimate AI-powered jewelry studio
               <div className="mt-6">
-                {" "}
                 Elevate your jewelry design with GemAI—where AI meets elegance.
                 Instantly generate photorealistic 3D models, from filigree rings
                 to bespoke necklaces, refined with flawless precision. goodbye
@@ -360,31 +377,22 @@ export default function AboutUsPage() {
             </div>
           </div>
         </div>
+        
         <div
           ref={secoundCont}
-          className="w-screen h-screen justify-start flex items-center "
+          className="w-screen h-screen justify-start flex items-center"
         >
-          <div className="w-[50%] ">
-            <div
-              className="secoundpara opacity-0  2xl:text-[4rem] lg:text-[2.5rem] font-semibold bg-clip-text text-transparent 
-                          bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F]
-                          transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)] "
-            >
+          <div className="w-[50%]">
+            <div className="secoundpara opacity-0 2xl:text-[4rem] lg:text-[2.5rem] font-semibold bg-clip-text text-transparent bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]">
               Why Choose Us
             </div>
-
-            <div
-              className="secoundpara opacity-0 w-[80%] mt-6  bg-clip-text text-transparent 
-                          bg-gradient-to-br from-[#8f6c4d] via-[#663e2d] to-[#3f2016]
-                          transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]"
-            >
+            <div className="secoundpara opacity-0 w-[80%] mt-6 bg-clip-text text-transparent bg-gradient-to-br from-[#8f6c4d] via-[#663e2d] to-[#3f2016] transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]">
               Elevate your jewelry design with GemAI—where AI meets elegance.
               Instantly generate photorealistic 3D models, from filigree rings
               to bespoke necklaces, refined with flawless precision. goodbye to
               manual modeling and hello to effortless innovation—unleash your
               creativity. with GemAI, the ultimate AI-powered jewelry studio
               <div className="mt-6">
-                {" "}
                 Elevate your jewelry design with GemAI—where AI meets elegance.
                 Instantly generate photorealistic 3D models, from filigree rings
                 to bespoke necklaces, refined with flawless precision. goodbye
@@ -395,31 +403,22 @@ export default function AboutUsPage() {
             </div>
           </div>
         </div>
+        
         <div
           ref={thirdCont}
-          className="w-screen h-screen flex bg-amber-50 justify-end items-center "
+          className="w-screen h-screen flex bg-amber-50 justify-end items-center"
         >
-          <div className="w-[50%] ">
-            <div
-              className="thirdpara ml-90 opacity-0 lg:text-[2.5rem] 2xl:text-[4rem] font-semibold bg-clip-text text-transparent 
-                          bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F]
-                          transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)] "
-            >
+          <div className="w-[50%]">
+            <div className="thirdpara ml-90 opacity-0 lg:text-[2.5rem] 2xl:text-[4rem] font-semibold bg-clip-text text-transparent bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]">
               Our Brand Promise
             </div>
-
-            <div
-              className="thirdpara ml-90 opacity-0 w-[80%] mt-6  bg-clip-text text-transparent 
-                          bg-gradient-to-br from-[#8f6c4d] via-[#663e2d] to-[#3f2016]
-                          transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]"
-            >
+            <div className="thirdpara ml-90 opacity-0 w-[80%] mt-6 bg-clip-text text-transparent bg-gradient-to-br from-[#8f6c4d] via-[#663e2d] to-[#3f2016] transition-all duration-500 ease-[cubic-bezier(0.19,1,0.2,1)]">
               Elevate your jewelry design with GemAI—where AI meets elegance.
               Instantly generate photorealistic 3D models, from filigree rings
               to bespoke necklaces, refined with flawless precision. goodbye to
               manual modeling and hello to effortless innovation—unleash your
               creativity. with GemAI, the ultimate AI-powered jewelry studio
               <div className="mt-6">
-                {" "}
                 Elevate your jewelry design with GemAI—where AI meets elegance.
                 Instantly generate photorealistic 3D models, from filigree rings
                 to bespoke necklaces, refined with flawless precision. goodbye
