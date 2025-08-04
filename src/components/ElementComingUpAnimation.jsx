@@ -6,7 +6,7 @@ import imgone from "../assets/slide-image-1.jpg";
 import imgtwo from "../assets/slide-image-2.jpg";
 import imgthree from "../assets/slide-image-3.jpg";
 import imgfour from "../assets/slide-image-4.jpg";
-
+import backimage from  "../assets/images/bg_01.jpg";
 import lines from "../assets/lines.png";
 
 function ElementComingUpAnimation() {
@@ -37,7 +37,7 @@ function ElementComingUpAnimation() {
           scrollTrigger: {
             trigger: ParenDiv.current,
             start: "top top",
-            end: "+=4000",
+            end: "+=3000",
             pin: true,
             scrub: 1,
           },
@@ -160,20 +160,20 @@ function ElementComingUpAnimation() {
     {
       baseW: "w-[8%]",
       baseH: "h-[12vh]",
-      lgW: "lg:w-[12%]",
-      lgH: "lg:h-[32vh]",
+      lgW: "lg:w-[10%]",
+      lgH: "lg:h-[25vh]",
     },
     {
       baseW: "w-[14%]",
       baseH: "h-[21vh]",
       lgW: "lg:w-[20%]",
-      lgH: "lg:h-[46vh]",
+      lgH: "lg:h-[56vh]",
     },
     {
       baseW: "w-[5%]",
       baseH: "h-[5vh]",
       lgW: "lg:w-[10%]",
-      lgH: "lg:h-[25vh]",
+      lgH: "lg:h-[23vh]",
     },
     {
       baseW: "w-[10%]",
@@ -185,12 +185,12 @@ function ElementComingUpAnimation() {
   const images = [imgone, imgtwo, imgthree, imgfour];
 
   return (
-    <div ref={ParenDiv} className="w-screen h-[200vh]">
-      <div className="w-screen relative h-screen flex flex-col justify-center items-center">
+    <div ref={ParenDiv} className="w-full h-[200vh]">
+      <div className="w-full relative h-screen flex flex-col justify-center items-center">
         <img
           ref={bglines}
           className="w-full h-0 absolute top-0 opacity-30 object-fill"
-          src={lines}
+          src={backimage}
           alt="lines"
         />
 
@@ -203,7 +203,7 @@ function ElementComingUpAnimation() {
         </div>
 
         {/* FIRST GROUP – depth effect */}
-        <div className="w-screen flex absolute lg:-bottom-[90vh] xl:-bottom-[70vh] 2xl:-bottom-[50vh] justify-around">
+        <div className="w-screen flex absolute lg:-bottom-[90vh] xl:-bottom-[70vh] 2xl:-bottom-[60vh] justify-around">
           {images.map((src, i) => {
             const { baseW, baseH, lgW, lgH } = sizes[i];
             return (
@@ -211,7 +211,9 @@ function ElementComingUpAnimation() {
                 key={`first-${i}`}
                 src={src}
                 alt={`slide-${i}`}
-                className={`firstline relative z-10 rounded-3xl ${baseW} ${baseH} ${lgW} ${lgH} transition-all duration-800 ease-[cubic-bezier(0.19,1,0.2,1)]`}
+                className={`firstline relative ${
+                  i === 1 ? "z-50" : "z-10"
+                } rounded-3xl ${baseW} ${baseH} ${lgW} ${lgH} transition-all duration-800 ease-[cubic-bezier(0.19,1,0.2,1)]`}
               />
             );
           })}
@@ -227,7 +229,9 @@ function ElementComingUpAnimation() {
                 key={`second-${i}`}
                 src={src}
                 alt={`slide-second-${i}`}
-                className={`secoundline relative z-10 rounded-3xl ${baseW} ${baseH} ${lgW} ${lgH} transition-all duration-800 ease-[cubic-bezier(0.19,1,0.2,1)]`}
+                className={`secoundline ${
+                  i === 2 ? "z-50" : "z-10"
+                } relative z-10 rounded-3xl ${baseW} ${baseH} ${lgW} ${lgH} transition-all duration-800 ease-[cubic-bezier(0.19,1,0.2,1)]`}
               />
             );
           })}

@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import imgone from "../assets/slide-image-1.jpg";
 import imgtwo from "../assets/slide-image-2.jpg";
 import imgthree from "../assets/slide-image-3.jpg";
 import imgfour from "../assets/slide-image-4.jpg";
 import imgfive from "../assets/slide-image-5.jpg";
+import bgimage from "../assets/images/bg_01.jpg";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -12,124 +13,100 @@ function HeroSection() {
   const bigBox = useRef(null);
   const mainButton = useRef(null);
 
-  function arrangeCenterOut(arr) {
-    const result = [];
-    let insertLeft = true;
-
-    result.push(arr[0]); // First element goes to center
-
-    for (let i = 1; i < arr.length; i++) {
-      if (insertLeft) {
-        result.unshift(arr[i]); // insert at start (left)
-      } else {
-        result.push(arr[i]); // insert at end (right)
-      }
-      insertLeft = !insertLeft;
-    }
-
-    return result;
-  }
-
   useGSAP(() => {
     const letters = gsap.utils.toArray(".letter");
     const letterstwo = gsap.utils.toArray(".lettertwo");
     const heading = gsap.utils.toArray(".heading");
     const subheading = gsap.utils.toArray(".subheading");
-    const heroimages = arrangeCenterOut(gsap.utils.toArray(".heroimages"));
+    const heroimages = gsap.utils.toArray(".heroimages");
 
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
-    tl.to(
-      letters,
+    let mm = gsap.matchMedia();
+
+    mm.add(
       {
-        y: "-200%",
-        alpha: 1,
-        stagger: 0.1,
+        md: "(min-width:700px) and (max-width:1023px)",
+        lg: "(min-width:1024px) and (max-width:1399px)",
+        xl: "(min-width:1400px) and (max-width:2000px)",
       },
-      "bg-text"
+      (context) => {
+        const { lg, xl, md } = context.conditions;
+        console.log(lg, xl, md);
+        tl.to(letters, { y: "-200%", alpha: 1, stagger: 0.1 }, "bg-text")
+          .to(letterstwo, { y: "-45%", alpha: 1, stagger: 0.1 }, "bg-text")
+          .to(
+            bigBox.current,
+            {
+              y: () => {
+                if (lg) {
+                  return "-72%";
+                }else if (xl) {
+                  return "-105%"
+                }
+              },
+
+              duration: 1.5,
+            },
+            "bigbox"
+          )
+          .to(heading, { y: "-65%", scale: 1.2, duration: 0.9 }, "<")
+          .to(
+            heading,
+            {
+              y: "-85%",
+
+              scale: 1,
+              duration: 0.9,
+            },
+            "-=0.5"
+          )
+          .to(
+            subheading,
+            {
+              y: () => {
+                if (lg) {
+                  return "-300%";
+                } else if (xl) {
+                  return "-455%";
+                }
+              },
+              duration: 2,
+              stagger: 0.5,
+            },
+            "bigbox"
+          )
+          .to(
+            mainButton.current,
+            { width: "30%", y: "-200%", duration: 1, delay: 1 },
+            "bigbox"
+          )
+          .to(
+            heroimages,
+            {
+              y: () => {
+                if (lg) {
+                  return "-38%";
+                } else if (xl) {
+                  return "-56%";
+                }
+              },
+              duration: 0.6,
+              stagger: 0.2,
+            },
+            "<"
+          );
+      }
     );
 
-    tl.to(
-      letterstwo,
-      {
-        y: "-45%",
-        alpha: 1,
-        stagger: 0.1,
-      },
-      "bg-text"
-    );
-
-    tl.to(
-      bigBox.current,
-      {
-        y: "-115%",
-
-        ease: "power3.inOut",
-        duration: 1.5,
-      },
-      "bigboxanimation"
-    );
-
-    tl.to(
-      heading,
-      {
-        y: "-65%",
-        scale: 1.2,
-        ease: "power3.inOut",
-        duration: 0.9,
-      },
-      "<"
-    ).to(
-      heading,
-      {
-        y: "-65%",
-        scale: 1,
-        ease: "power3.inOut",
-        duration: 0.9,
-      },
-      "-=0.5"
-    );
-
-    tl.to(
-      subheading,
-      {
-        y: "-205%",
-        ease: "power3.inOut",
-        duration: 2,
-        stagger: 0.5,
-      },
-      "bigboxanimation"
-    );
-
-    tl.to(
-      mainButton.current,
-      {
-        width: "30%",
-        y: "-100%",
-        ease: "power3.inOut",
-        duration: 1,
-        delay: 1,
-      },
-      "bigboxanimation"
-    ).to(
-      heroimages,
-      {
-        y: "-26%",
-        ease: "power3.inOut",
-        duration: 0.6,
-        stagger: 0.2,
-      },
-      "<"
-    );
-  });
+    // Do NOT clearProps or otherwise reset styles here
+  }, []); // runs only once
 
   return (
     <>
-      <div className="w-screen h-[calc(100vh-6rem)] relative overflow-hidden flex items-center justify-center">
+      <div className="w-full 2xl:h-[calc(100vh-6rem)]  lg:h-[96vh]  relative overflow-hidden flex items-center justify-center">
         {/* gradientbox */}
-
         {/* {background text } */}
-
         <div className="flex flex-col items-center w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%]">
           <div className="flex justify-around mt-16 sm:mt-20 md:mt-28 w-full sm:w-[80%] md:w-[60%]">
             {["W", "E", "L", "C", "O", "M", "E", "T", "O"].map((char, i) => (
@@ -154,10 +131,9 @@ function HeroSection() {
             )}
           </div>
         </div>
-
         <div
           ref={bigBox}
-          className="bigbox absolute w-[98%] sm:w-[95%] md:w-[92%] h-[85%] sm:h-[88%] md:h-[90%] flex flex-col overflow-hidden items-center bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] text-white rounded-2xl sm:rounded-3xl
+          className="bigbox absolute w-[98%]  sm:w-[95%] md:w-[92%] h-[85%] sm:h-[88%] lg:h-[100%] xl:h-[85%] 2xl:h-[90%] md:h-[90%] flex flex-col overflow-hidden items-center bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] text-white rounded-2xl sm:rounded-3xl
       -bottom-[85vh] sm:-bottom-[88vh] md:lg:-bottom-[90vh] lg:-bottom-[82vh]"
         >
           {/* heading text */}

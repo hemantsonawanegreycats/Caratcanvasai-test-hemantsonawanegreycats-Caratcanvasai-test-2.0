@@ -8,6 +8,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import bgimage from "../assets/images/bg_03.jpg";
+import bgimage2 from "../assets/images/bg_04.jpg";
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
@@ -41,7 +43,6 @@ function CarouselAnimation() {
         start: "top 30%",
         end: "bottom bottom",
         invalidateOnRefresh: true,
-
       },
     });
 
@@ -98,15 +99,19 @@ function CarouselAnimation() {
       {/* Hero section with positioned card */}
       <div
         ref={firstScrollDiv}
-        className="w-screen h-screen flex justify-center items-center bg-white relative"
+        style={{
+          backgroundImage: `url(${bgimage})`,
+          backgroundSize: "cover",
+        }}
+        className="w-screen  h-screen flex justify-center  items-center  relative"
       >
-        <div className="relative 2xl:text-[12rem] lg:text-8xl text-[12rem] z-11 font-normal lg:w-lg lg:leading-20 2xl:leading-40 2xl:w-[55vw] leading-44 bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] bg-clip-text text-transparent text-center uppercase">
-          prompt To Image
+        <div className="relative 2xl:text-[10rem] mx-auto lg:text-8xl text-[12rem] z-1 font-normal lg:w-lg lg:leading-20 2xl:leading-40 2xl:w-[55vw] leading-44 bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] bg-clip-text text-transparent text-center uppercase">
+          Start with AI Jewelry Generator
         </div>
 
         <img
           ref={singleimage}
-          className="absolute  2xl:w-[20rem] xl:w-[16rem] lg:w-[12rem] rotate-12 rounded-3xl z-10"
+          className="absolute mx-auto 2xl:w-[20rem] xl:w-[16rem] lg:w-[12rem] rotate-12 rounded-3xl z-30"
           src={imgthree}
           alt="hero image"
         />
@@ -115,7 +120,11 @@ function CarouselAnimation() {
       {/* Carousel section */}
       <div
         ref={scrollerparendiv}
-        className="w-screen h-screen flex items-center bg-gray-50"
+        style={{
+          backgroundImage: `url(${bgimage2})`,
+          backgroundSize: "cover",
+        }}
+        className="w-screen relative h-screen  flex items-center bg-gray-50"
       >
         <div ref={containerRef} className="w-full flex pl-2 overflow-x-hidden">
           {imagesarray.map((imagelink, i) => (

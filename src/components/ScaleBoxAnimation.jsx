@@ -62,7 +62,7 @@ function ScaleBoxAnimation() {
 
   return (
     <>
-      <div ref={secoundBox} className="w-screen overflow-hidden h-[150vh] ">
+      <div ref={secoundBox} className="w-screen overflow-hidden h-[100vh] ">
         <div
           ref={firstbox}
           className="w-screen h-[100vh]  relative bg-gradient-to-bl from-[#5A2E1F] via-[#A16247] to-[#D4A276] text-white  overflow-hidden"

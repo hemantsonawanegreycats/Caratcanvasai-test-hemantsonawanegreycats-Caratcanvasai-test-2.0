@@ -2,6 +2,7 @@ import logo from "../assets/caratcanvas logo.png";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
+import { Link } from "react-router";
 
 function NavBar() {
   const logoref = useRef(null);
@@ -59,25 +60,32 @@ function NavBar() {
 
   return (
     <>
-      <div className="w-screen flex h-24 items-center ">
-        <div className=" flex justify-around flex-1/3">
-          <div className="options">Link 1</div>
-          <div className="options">Link 2</div>
-          <div className="options">Link 3</div>
+      <div className="fixed top-5 bg-white/85 shadow-sm backdrop-blur-md rounded-full left-0 right-0 z-50 mx-auto w-[90vw] h-20 flex items-center  ">
+        {/* Left Links */}
+        <div className="flex flex-1 font-normal text-[#5A2E1F] justify-around">
+          <Link to={"/"} className="options font-medium h-1 text-[#5A2E1F]  rounded-full">
+            Home
+            <div className="w-full h-1 bg-[#e68261] rounded-full"></div>
+          </Link>
+          <Link to={"/shop"}>
+          <div className="options">Shop</div>
+          </Link>
+          <Link to={"/about-us"} className="options">About</Link>
         </div>
 
-        <div
-          ref={logoref}
-          className="flex-1/3 flex justify-center items-center"
-        >
-          <img className=" logo w-[50%]" src={logo} alt="" />
+        {/* Logo */}
+        <div ref={logoref} className="flex flex-1 justify-center items-center">
+          <img className="logo w-1/2" src={logo} alt="" />
         </div>
 
-        <div className="flex justify-around flex-1/3">
-          <div className="rightoptions">Link 1</div>
-          <div className="rightoptions">Link 2</div>
-          <div className="bg-[#A16247] rightoptions  w-26 h-10 flex items-center justify-center rounded-3xl text-white">
-            Link 3
+        {/* Right Links */}
+        <div className="flex flex-1 justify-around font-normal text-[#5A2E1F]">
+          <Link to={"/contact"} className="rightoptions">
+            Contact
+          </Link>
+          <div className="rightoptions">My Profile</div>
+          <div className="rightoptions  flex items-center justify-center rounded-3xl ">
+            Sign Out
           </div>
         </div>
       </div>

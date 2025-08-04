@@ -72,7 +72,7 @@ function MeetOurExperts() {
 
   return (
     <>
-      <div ref={empparentdiv} className="w-screen h-screen flex p-10 bg-white">
+      <div ref={empparentdiv} className="w-full h-screen flex p-10 bg-white">
         <div className="flex w-1/3 text-black flex-col  bg-white">
           <span className="employetext 2xl:text-8xl lg:text-6xl mt-[18rem] lg:mt-[4rem] ml-[5rem] 2xl:leading-25 lg:leading-16 bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] bg-clip-text text-transparent">
             Meet Our Experts
