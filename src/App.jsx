@@ -6,6 +6,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import PromptInput from "./components/PromptInput";
 import ShopPage from "./pages/ShopPage";
 import ImageGeneratorUI from "./components/ImageGeneratorUI";
+import ProductPage from "./components/ProductPage";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/generate",
     element: <ImageGeneratorUI />,
+  },
+   {
+    path: "/productpage",
+    element: <ProductPage />,
   },
 ]);
 

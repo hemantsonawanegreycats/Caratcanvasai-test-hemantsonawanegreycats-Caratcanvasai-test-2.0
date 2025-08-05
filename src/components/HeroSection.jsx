@@ -26,8 +26,8 @@ function HeroSection() {
 
     mm.add(
       {
-        md: "(min-width:700px) and (max-width:1023px)",
-        lg: "(min-width:1024px) and (max-width:1399px)",
+        md: "(min-width:900px) and (max-width:1278px)",
+        lg: "(min-width:1279px) and (max-width:1399px)",
         xl: "(min-width:1400px) and (max-width:2000px)",
       },
       (context) => {
@@ -40,7 +40,7 @@ function HeroSection() {
             {
               y: () => {
                 if (lg) {
-                  return "-72%";
+                  return "-102%";
                 }else if (xl) {
                   return "-105%"
                 }
@@ -66,7 +66,7 @@ function HeroSection() {
             {
               y: () => {
                 if (lg) {
-                  return "-300%";
+                  return "-299%";
                 } else if (xl) {
                   return "-455%";
                 }
@@ -86,7 +86,7 @@ function HeroSection() {
             {
               y: () => {
                 if (lg) {
-                  return "-38%";
+                  return "-28%";
                 } else if (xl) {
                   return "-56%";
                 }
@@ -104,7 +104,7 @@ function HeroSection() {
 
   return (
     <>
-      <div className="w-full 2xl:h-[calc(100vh-6rem)]  lg:h-[96vh]  relative overflow-hidden flex items-center justify-center">
+      <div className="w-full 2xl:h-[calc(100vh-6rem)]  lg:h-[97vh]  relative overflow-hidden flex items-center justify-center">
         {/* gradientbox */}
         {/* {background text } */}
         <div className="flex flex-col items-center w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%]">
@@ -133,11 +133,11 @@ function HeroSection() {
         </div>
         <div
           ref={bigBox}
-          className="bigbox absolute w-[98%]  sm:w-[95%] md:w-[92%] h-[85%] sm:h-[88%] lg:h-[100%] xl:h-[85%] 2xl:h-[90%] md:h-[90%] flex flex-col overflow-hidden items-center bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] text-white rounded-2xl sm:rounded-3xl
+          className="bigbox absolute w-[98%]  sm:w-[95%] md:w-[92%] h-[85%] sm:h-[88%] lg:h-[87%] xl:h-[85%] 2xl:h-[90%] md:h-[90%] flex flex-col overflow-hidden items-center bg-gradient-to-br from-[#D4A276] via-[#A16247] to-[#5A2E1F] text-white rounded-2xl sm:rounded-3xl
       -bottom-[85vh] sm:-bottom-[88vh] md:lg:-bottom-[90vh] lg:-bottom-[82vh]"
         >
           {/* heading text */}
-          <div className="text-center flex flex-col items-center mt-10 sm:mt-16 md:mt-20 lg:mt-17 2xl:mt-30">
+          <div className="text-center flex flex-col items-center mt-10 sm:mt-16 md:mt-20 lg:mt-25 2xl:mt-30">
             <div className="heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl leading-tight bg-gradient-to-r from-[#ffc7b0] to-white bg-clip-text text-transparent">
               Your Design. Your Story.
             </div>
